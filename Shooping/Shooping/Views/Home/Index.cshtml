@@ -1,0 +1,152 @@
+﻿@model Shooping.Models.HomeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style type="text/css">
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid lightgray;
+        box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+        border-radius: 15px;
+        font-family: sans-serif;
+        margin: 5px;
+    }
+</style>
+
+
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="./images/camarones.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p>Some representative placeholder content for the first slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/images/hamburguesa.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p>Some representative placeholder content for the second slide.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/images/hotdog.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p>Some representative placeholder content for the third slide.</p>
+            </div>
+        </div>
+        
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+
+</div>
+
+
+<hr/>
+
+<div class="mb-2">
+
+    <a class="btn btn-outline-warning" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Ordenar por Nombre</a>&nbsp;&nbsp;
+    <a class="btn btn-outline-danger" asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">Ordenar por Precio</a>
+</div>
+
+
+
+@if(Model.Quantity > 0)
+{
+    <a asp-action="ShowCart" class="btn btn-outline-primary">Ver Carro de Compras (@Model.Quantity)</a>
+}
+<div class="mb-3">
+    <div>
+        <form asp-action="Index" method="get">
+
+            <div class="form-group has-search">
+
+             <input class=" form-control" type="text" placeholder="Search" name="SearchString" value="@ViewData["CurrentFilter"]">
+            </div>
+        </form>
+    </div>
+    @foreach (var item in Model.Categories)
+    {
+      
+         <span> <a class="btn btn-outline-danger pt-2 mt-2" href="@Url.Action("Index", "Home", new { searchString = item.Name})"> @item.Name&nbsp;</a></span>
+       
+
+    }
+
+</div>
+<hr />
+
+<div class="row row-cols-1 row-cols-md-4 g-4 mt-1">
+    @if (Model.Products.Count() > 0)
+    {
+        @foreach (var item in Model.Products)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="text-center zoom">
+                        <img src="@item.ImageFullPath" style="height:150px; max-width:200px;" class="text-center" alt=@item.Name />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-navy"> @item.Name</h5>
+                        <p class="card-text smfnt">@item.Description</p>
+                        <h5 class="text-muted">@Html.DisplayFor(modelItem => item.Price)</h5>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-lg btn-danger">Details</a>
+                       @* <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Add to Cart</a>*@
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h3>No hay productos con su criterio de búsqueda</h3>
+    }
+</div>
+
+@{
+    var prevDisabled = !Model.Products.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Products.HasNextPage ? "disabled" : "";
+}
+
+<div class="mt-5">
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.Products.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-warning @prevDisabled">
+        Anterior
+    </a>
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(Model.Products.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-danger @nextDisabled">
+        Siguiente
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

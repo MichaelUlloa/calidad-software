@@ -33,9 +33,5 @@ namespace Shooping.Data.Entities
         [MaxLength(50)]
         [Display(Name = "Correo ")]
         public string Correo { get; set; }
-
-
-        [Display(Name = "Ciudad")]
-        public City City { get; set; }
     }
 }

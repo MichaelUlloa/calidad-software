@@ -30,11 +30,7 @@ namespace Shooping.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users
-                .Include(u => u.City)
-                .ThenInclude(c => c.State)
-                .ThenInclude(s => s.Country)
-                .ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
         public async Task<IActionResult> Create()
@@ -42,9 +38,6 @@ namespace Shooping.Controllers
             AddUserViewModel model = new()
             {
                 Id = Guid.Empty.ToString(),
-                Countries = await _combosHelper.GetComboCountriesAsync(),
-                States = await _combosHelper.GetComboStatesAsync(0),
-                Cities = await _combosHelper.GetComboCitiesAsync(0),
                 UserType = UserType.Admin,
             };
 
@@ -69,9 +62,6 @@ namespace Shooping.Controllers
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
-                    model.Countries = await _combosHelper.GetComboCountriesAsync();
-                    model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
-                    model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
                     return View(model);
                 }
 
@@ -98,36 +88,7 @@ namespace Shooping.Controllers
                 ModelState.AddModelError(string.Empty, response.Message);
             }
 
-            model.Countries = await _combosHelper.GetComboCountriesAsync();
-            model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
-            model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
             return View(model);
-        }
-
-        public JsonResult GetStates(int countryId)
-        {
-            Country country = _context.Countries
-                .Include(c => c.States)
-                .FirstOrDefault(c => c.Id == countryId);
-            if (country == null)
-            {
-                return null;
-            }
-
-            return Json(country.States.OrderBy(d => d.Name));
-        }
-
-        public JsonResult GetCities(int stateId)
-        {
-            State state = _context.States
-                .Include(s => s.Cities)
-                .FirstOrDefault(s => s.Id == stateId);
-            if (state == null)
-            {
-                return null;
-            }
-
-            return Json(state.Cities.OrderBy(c => c.Name));
         }
     }
 }

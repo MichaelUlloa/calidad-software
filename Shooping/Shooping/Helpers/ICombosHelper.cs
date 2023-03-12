@@ -9,11 +9,5 @@ namespace Shooping.Helpers
         Task<IEnumerable<SelectListItem>> GetComboMesasAsync();
         Task<IEnumerable<SelectListItem>> GetComboCategoriesAsync(IEnumerable<Category> filter);
         Task<IEnumerable<SelectListItem>> GetComboMesasAsync(IEnumerable<Mesa> filter);
-
-        Task<IEnumerable<SelectListItem>> GetComboCountriesAsync();
-
-        Task<IEnumerable<SelectListItem>> GetComboStatesAsync(int countryId);
-
-        Task<IEnumerable<SelectListItem>> GetComboCitiesAsync(int stateId);
     }
 }

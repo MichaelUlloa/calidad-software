@@ -37,7 +37,6 @@ namespace Shooping.Helpers
                 LastName = model.LastName,
                 ImageId = model.ImageId,
                 PhoneNumber = model.PhoneNumber,
-                City = await _context.Cities.FindAsync(model.CityId),
                 UserName = model.Username,
                 UserType = model.UserType
             };
@@ -77,20 +76,12 @@ namespace Shooping.Helpers
 
         public async Task<User> GetUserAsync(string email)
         {
-            return await _context.Users
-                .Include(u => u.City)
-                .ThenInclude(c => c.State)
-                .ThenInclude(s => s.Country)
-                .FirstOrDefaultAsync(u => u.Email == email);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User> GetUserAsync(Guid userId)
         {
-            return await _context.Users
-                .Include(u => u.City)
-                .ThenInclude(c => c.State)
-                .ThenInclude(s => s.Country)
-                .FirstOrDefaultAsync(u => u.Id == userId.ToString());
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId.ToString());
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)

@@ -85,9 +85,6 @@ namespace Shooping.Controllers
             AddUserViewModel model = new()
             {
                 Id = Guid.Empty.ToString(),
-                Countries = await _combosHelper.GetComboCountriesAsync(),
-                States = await _combosHelper.GetComboStatesAsync(0),
-                Cities = await _combosHelper.GetComboCitiesAsync(0),
                 UserType = UserType.User,
             };
 
@@ -112,9 +109,6 @@ namespace Shooping.Controllers
                 if (user == null)
                 {
                     _flashMessage.Danger("Este correo ya está siendo usado.");
-                    model.Countries = await _combosHelper.GetComboCountriesAsync();
-                    model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
-                    model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
                     return View(model);
                 }
 
@@ -141,9 +135,6 @@ namespace Shooping.Controllers
                 ModelState.AddModelError(string.Empty, response.Message);
             }
 
-            model.Countries = await _combosHelper.GetComboCountriesAsync();
-            model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
-            model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
             return View(model);
         }
 
@@ -169,32 +160,6 @@ namespace Shooping.Controllers
             return View();
         }
 
-        public JsonResult GetStates(int countryId)
-        {
-            Country country = _context.Countries
-                .Include(c => c.States)
-                .FirstOrDefault(c => c.Id == countryId);
-            if (country == null)
-            {
-                return null;
-            }
-
-            return Json(country.States.OrderBy(d => d.Name));
-        }
-
-        public JsonResult GetCities(int stateId)
-        {
-            State state = _context.States
-                .Include(s => s.Cities)
-                .FirstOrDefault(s => s.Id == stateId);
-            if (state == null)
-            {
-                return null;
-            }
-
-            return Json(state.Cities.OrderBy(c => c.Name));
-        }
-
         public async Task<IActionResult> ChangeUser()
         {
             User user = await _userHelper.GetUserAsync(User.Identity.Name);
@@ -210,12 +175,6 @@ namespace Shooping.Controllers
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 ImageId = user.ImageId,
-                Cities = await _combosHelper.GetComboCitiesAsync(user.City.State.Id),
-                CityId = user.City.Id,
-                Countries = await _combosHelper.GetComboCountriesAsync(),
-                CountryId = user.City.State.Country.Id,
-                StateId = user.City.State.Id,
-                States = await _combosHelper.GetComboStatesAsync(user.City.State.Country.Id),
                 Id = user.Id,
                 Document = user.Document
             };
@@ -243,16 +202,11 @@ namespace Shooping.Controllers
                 user.Address = model.Address;
                 user.PhoneNumber = model.PhoneNumber;
                 user.ImageId = imageId;
-                user.City = await _context.Cities.FindAsync(model.CityId);
                 user.Document = model.Document;
 
                 await _userHelper.UpdateUserAsync(user);
                 return RedirectToAction("Index", "Home");
             }
-
-            model.Countries = await _combosHelper.GetComboCountriesAsync();
-            model.States = await _combosHelper.GetComboStatesAsync(model.CountryId);
-            model.Cities = await _combosHelper.GetComboCitiesAsync(model.StateId);
             return View(model);
         }
 

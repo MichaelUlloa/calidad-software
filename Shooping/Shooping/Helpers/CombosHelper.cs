@@ -52,36 +52,6 @@ namespace Shooping.Helpers
             return list;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetComboCitiesAsync(int stateId)
-        {
-            List<SelectListItem> list = await _context.Cities
-                .Where(s => s.State.Id == stateId)
-                .Select(c => new SelectListItem
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString()
-                })
-                .OrderBy(c => c.Text)
-                .ToListAsync();
-
-            list.Insert(0, new SelectListItem { Text = "[Seleccione una ciudad...", Value = "0" });
-            return list;
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetComboCountriesAsync()
-        {
-            List<SelectListItem> list = await _context.Countries.Select(c => new SelectListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            })
-                .OrderBy(c => c.Text)
-                .ToListAsync();
-
-            list.Insert(0, new SelectListItem { Text = "[Seleccione un país...", Value = "0" });
-            return list;
-        }
-
         public async Task<IEnumerable<SelectListItem>> GetComboMesasAsync(IEnumerable<Mesa> filter)
         {
             List<Mesa> mesas = await _context.Mesas.ToListAsync();
@@ -117,22 +87,6 @@ namespace Shooping.Helpers
                 .ToListAsync();
 
             list.Insert(0, new SelectListItem { Text = "[Seleccione una mesa...", Value = "0" });
-            return list;
-        }
-
-        public async Task<IEnumerable<SelectListItem>> GetComboStatesAsync(int countryId)
-        {
-            List<SelectListItem> list = await _context.States
-                .Where(s => s.Country.Id == countryId)
-                .Select(c => new SelectListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            })
-                .OrderBy(c => c.Text)
-                .ToListAsync();
-
-            list.Insert(0, new SelectListItem { Text = "[Seleccione un Departamento / Estado...", Value = "0" });
             return list;
         }
     }

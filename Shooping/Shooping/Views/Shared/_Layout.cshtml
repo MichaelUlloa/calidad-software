@@ -34,9 +34,6 @@
                         <li class="nav-item navbar-center">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Contact">Contacto</a>
                         </li>
-                        <li class="nav-item navbar-center">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Reservations" asp-action="Index">Reserva</a>
-                        </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
@@ -44,6 +41,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt text-danger"></i> Dashboard</a></li>
                                     <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Reservations" asp-action="Index"><i class="fa fa-list-1-2 text-danger"></i> Reservaciones</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Index"><i class="fa fa-list-1-2 text-danger"></i> Categorías</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Mesas" asp-action="Index"><i class="fa fa-list-1-2 text-danger"></i> Mesas</a></li>
                                     <li><a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index"><i class="fa fa-bell text-danger"></i> Pedidos</a></li>

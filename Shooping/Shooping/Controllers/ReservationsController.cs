@@ -158,129 +158,7 @@ public class ReservationsController : Controller
 
         return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "Edit", model) });
     }
-
     /*
-    public async Task<IActionResult> Details(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        Reservation product = await _context.Reservations
-            .Include(p => p.ReservationImages)
-            .Include(p => p.ReservationCategories)
-            .ThenInclude(pc => pc.Category)
-            .FirstOrDefaultAsync(p => p.Id == id);
-        if (product == null)
-        {
-            return NotFound();
-        }
-
-        return View(product);
-    }
-
-    [NoDirectAccess]
-    public async Task<IActionResult> AddImage(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        Reservation product = await _context.Reservations.FindAsync(id);
-        if (product == null)
-        {
-            return NotFound();
-        }
-
-        AddReservationImageViewModel model = new()
-        {
-            ReservationId = product.Id,
-        };
-
-        return View(model);
-    }
-
-    [NoDirectAccess]
-    public async Task<IActionResult> AddCategory(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        Reservation product = await _context.Reservations
-            .Include(p => p.ReservationCategories)
-            .ThenInclude(pc => pc.Category)
-            .FirstOrDefaultAsync(p => p.Id == id);
-        if (product == null)
-        {
-            return NotFound();
-        }
-
-        List<Category> categories = product.ReservationCategories.Select(pc => new Category
-        {
-            Id = pc.Category.Id,
-            Name = pc.Category.Name,
-        }).ToList();
-
-        AddCategoryReservationViewModel model = new()
-        {
-            ReservationId = product.Id,
-            Categories = await _combosHelper.GetComboCategoriesAsync(categories),
-        };
-
-        return View(model);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddCategory(AddCategoryReservationViewModel model)
-    {
-        Reservation reservation = await _context.Reservations
-            .Include(pc => pc.Table)
-            .FirstOrDefaultAsync(p => p.Id == model.ReservationId);
-
-        if (ModelState.IsValid)
-        {
-            ReservationCategory productCategory = new()
-            {
-                Category = await _context.Categories.FindAsync(model.CategoryId),
-                Reservation = reservation,
-            };
-
-            try
-            {
-                _context.Add(productCategory);
-                await _context.SaveChangesAsync();
-                _flashMessage.Confirmation("Categoría agregada.");
-                return Json(new
-                {
-                    isValid = true,
-                    html = ModalHelper.RenderRazorViewToString(this, "Details", _context.Reservations
-                        .Include(p => p.ReservationImages)
-                        .Include(p => p.ReservationCategories)
-                        .ThenInclude(pc => pc.Category)
-                        .FirstOrDefaultAsync(p => p.Id == model.ReservationId))
-                });
-            }
-            catch (Exception exception)
-            {
-                _flashMessage.Danger(exception.Message);
-            }
-        }
-
-        List<Category> categories = reservation.ReservationCategories.Select(pc => new Category
-        {
-            Id = pc.Category.Id,
-            Name = pc.Category.Name,
-        }).ToList();
-
-        model.Categories = await _combosHelper.GetComboCategoriesAsync(categories);
-        return Json(new { isValid = false, html = ModalHelper.RenderRazorViewToString(this, "AddCategory", model) });
-    }
-
     public async Task<IActionResult> DeleteCategory(int? id)
     {
         if (id == null)
@@ -297,27 +175,29 @@ public class ReservationsController : Controller
         }
 
         _context.ReservationCategories.Remove(productCategory);
+
         await _context.SaveChangesAsync();
         _flashMessage.Info("Registro borrado.");
+
         return RedirectToAction(nameof(Details), new { Id = productCategory.Reservation.Id });
     }
+    */
 
     [NoDirectAccess]
     public async Task<IActionResult> Delete(int id)
     {
-        Reservation product = await _context.Reservations
-            .Include(p => p.ReservationCategories)
-            .Include(p => p.ReservationImages)
-            .FirstOrDefaultAsync(p => p.Id == id);
-        if (product == null)
+        Reservation reservation = await _context.Reservations.FirstOrDefaultAsync(p => p.Id == id);
+
+        if (reservation == null)
         {
             return NotFound();
         }
 
-        _context.Reservations.Remove(product);
+        _context.Reservations.Remove(reservation);
         await _context.SaveChangesAsync();
+
         _flashMessage.Info("Registro borrado.");
 
         return RedirectToAction(nameof(Index));
-    }*/
+    }
 }

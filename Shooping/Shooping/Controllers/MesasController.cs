@@ -23,19 +23,18 @@ namespace Shooping.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
             return View(
-                await _context.Mesas
+                await _context.Tables
                 .ToListAsync());
         }
 
         [NoDirectAccess]
         public async Task<IActionResult> Delete(int? id)
         {
-            Mesa mesa = await _context.Mesas.FirstOrDefaultAsync(c => c.Id == id);
+            Table mesa = await _context.Tables.FirstOrDefaultAsync(c => c.Id == id);
             try
             {
-                _context.Mesas.Remove(mesa);
+                _context.Tables.Remove(mesa);
                 await _context.SaveChangesAsync();
                 _flashMessage.Info("Registro borrado.");
             }
@@ -52,11 +51,11 @@ namespace Shooping.Controllers
         {
             if (id == 0)
             {
-                return View(new Mesa());
+                return View(new Table());
             }
             else
             {
-                Mesa mesa = await _context.Mesas.FindAsync(id);
+                Table mesa = await _context.Tables.FindAsync(id);
                 if (mesa == null)
                 {
                     return NotFound();
@@ -68,7 +67,7 @@ namespace Shooping.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, Mesa mesa)
+        public async Task<IActionResult> AddOrEdit(int id, Table mesa)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +104,7 @@ namespace Shooping.Controllers
                     return View(mesa);
                 }
 
-                return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAll", _context.Mesas.ToList()) });
+                return Json(new { isValid = true, html = ModalHelper.RenderRazorViewToString(this, "_ViewAll", _context.Tables.ToList()) });
 
             }
 

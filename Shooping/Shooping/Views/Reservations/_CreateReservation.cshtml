@@ -1,0 +1,41 @@
+﻿@model Shooping.Models.CreateReservationViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="Document" class="control-label"></label>
+            <input asp-for="Document" class="form-control" />
+            <span asp-validation-for="Document" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="FullName" class="control-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="TableId" class="control-label"></label>
+            <select asp-for="TableId" asp-items="Model.Tables" class="form-control"></select>
+            <span asp-validation-for="TableId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="Date" class="control-label"></label>
+            <input asp-for="Date" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <span class="required">*</span>
+            <label asp-for="Remarks" class="control-label"></label>
+            <input asp-for="Remarks" class="form-control" />
+            <span asp-validation-for="Remarks" class="text-danger"></span>
+        </div>
+    </div>
+</div>

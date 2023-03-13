@@ -23,8 +23,10 @@ namespace Shooping.Data
         public DbSet<SaleDetail> SaleDetails { get; set; }
 
         public DbSet<TemporalSale> TemporalSales { get; set; }
-        public DbSet<Mesa> Mesas { get; set; }
-        public DbSet<Resevaciones> Resevaciones { get; set; }
+
+        public DbSet<Table> Tables { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
 
         public DbSet<Suplidores> Suplidores { get; set; }
 
@@ -34,9 +36,9 @@ namespace Shooping.Data
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Product>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<ProductCategory>().HasIndex("ProductId", "CategoryId").IsUnique();
-            modelBuilder.Entity<Mesa>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Table>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Suplidores>().HasIndex(c => c.Name).IsUnique();
-
+            modelBuilder.Entity<Reservation>().HasKey(c => c.Id);
         }
     }
 }

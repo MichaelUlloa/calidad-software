@@ -106,7 +106,7 @@ namespace Shooping.Data
             User user = await _userHelper.GetUserAsync(email);
             if (user == null)
             {
-                Guid imageId = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\users\\{image}", "users");
+                //Guid imageId = await _blobHelper.UploadBlobAsync($"{Environment.CurrentDirectory}\\wwwroot\\images\\users\\{image}", "users");
                 user = new User
                 {
                     FirstName = firstName,
@@ -117,7 +117,7 @@ namespace Shooping.Data
                     Address = address,
                     Document = document,
                     UserType = userType,
-                    ImageId = imageId
+                   // ImageId = imageId
                 };
 
                 await _userHelper.AddUserAsync(user, "CursoDeZulu2020.");

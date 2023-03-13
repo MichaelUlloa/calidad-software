@@ -52,11 +52,11 @@ namespace Shooping.Helpers
             return list;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetComboMesasAsync(IEnumerable<Mesa> filter)
+        public async Task<IEnumerable<SelectListItem>> GetComboMesasAsync(IEnumerable<Table> filter)
         {
-            List<Mesa> mesas = await _context.Mesas.ToListAsync();
-            List<Mesa> mesasFiltered = new();
-            foreach (Mesa mesa in mesas)
+            List<Table> mesas = await _context.Tables.ToListAsync();
+            List<Table> mesasFiltered = new();
+            foreach (Table mesa in mesas)
             {
                 if (!filter.Any(c => c.Id == mesa.Id))
                 {
@@ -76,15 +76,14 @@ namespace Shooping.Helpers
             return list;
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetComboMesasAsync()
+        public async Task<IEnumerable<SelectListItem>> GetComboTablesAsync()
         {
-            List<SelectListItem> list = await _context.Mesas.Select(c => new SelectListItem
+            List<SelectListItem> list = await _context.Tables.Select(c => new SelectListItem
             {
                 Text = c.Name,
                 Value = c.Id.ToString()
-            })
-                .OrderBy(c => c.Text)
-                .ToListAsync();
+            }).OrderBy(c => c.Text)
+            .ToListAsync();
 
             list.Insert(0, new SelectListItem { Text = "[Seleccione una mesa...", Value = "0" });
             return list;

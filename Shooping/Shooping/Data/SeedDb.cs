@@ -30,6 +30,7 @@ namespace Shooping.Data
            
 
             await CheckUserAsync("1010", "admin", "admin", "admin@gmail.com", "322 311 4620", "Calle Luna Calle Sol", "JuanZuluaga.jpeg", UserType.Admin);
+            await CheckUserAsync("1011", "foo", "bar", "foobar@gmail.com", "322 311 4620", "Calle Luna Calle Sol", "JuanZuluaga.jpeg", UserType.User);
             //await CheckUserAsync("2020", "Ledys", "Bedoya", "ledys@yopmail.com", "322 311 4620", "Calle Luna Calle Sol", "LedysBedoya.jpeg", UserType.User);
           
         }

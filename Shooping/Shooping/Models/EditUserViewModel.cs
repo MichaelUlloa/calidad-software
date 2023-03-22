@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Shooping.Models
 {
     public class EditUserViewModel
     {
+        [Display(Name = "Roles")]
+        public int Test { get; set; }
+
         public string Id { get; set; }
 
         [Display(Name = "Documento")]

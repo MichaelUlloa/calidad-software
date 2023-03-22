@@ -1,4 +1,5 @@
-﻿using Shooping.Enums;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Shooping.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Shooping.Models
@@ -10,6 +11,20 @@ namespace Shooping.Models
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Username { get; set; }
+
+        public IEnumerable<SelectListItem> Roles { get; set; } = new List<SelectListItem>()
+        {
+            new()
+            {
+                Text = "Admin",
+                Value = "2",
+            },
+            new()
+            {
+                Text = "Usuario",
+                Value = "1",
+            },
+        };
 
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]

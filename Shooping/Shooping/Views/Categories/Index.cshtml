@@ -11,7 +11,7 @@
     <div class="card mt-2">
         <div class="card-header text-danger">
             <i class="fa fa-object-group"></i>  <strong>Categorías</strong>
-            <a style="margin-left:81.8%" onclick="showInPopup('@Url.Action("Create", "Categories", new { }, Context.Request.Scheme)' , 'Nueva Reservación')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i>Añadir</a>
+            <a style="margin-left:81.8%" onclick="showInPopup('@Url.Action("AddOrEdit", "Categories", new { }, Context.Request.Scheme)' , 'Nueva Reservación')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i>Añadir</a>
         </div>
         <div class="card-body">
             <div id="view-all">

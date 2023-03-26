@@ -121,7 +121,7 @@ namespace Shooping.Data
                    // ImageId = imageId
                 };
 
-                await _userHelper.AddUserAsync(user, "CursoDeZulu2020.");
+                await _userHelper.AddUserAsync(user, "Admin.123");
                 await _userHelper.AddUserToRoleAsync(user, userType.ToString());
 
                 string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);

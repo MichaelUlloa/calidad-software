@@ -48,6 +48,24 @@ public class ReservationsController : Controller
     {
         if (ModelState.IsValid)
         {
+            var reservations = await _context.Reservations
+                .Include(x => x.Table)
+                .Where(x => x.Table.Id == model.TableId && x.Date == model.Date)
+                .ToListAsync();
+
+            if (reservations.Any())
+            {
+                model.Tables = await _combosHelper.GetComboTablesAsync();
+
+                ModelState.AddModelError(nameof(CreateReservationViewModel.TableId), "Ya la mesa está reservada");
+
+                return Json(new
+                {
+                    isValid = false,
+                    html = RenderRazorViewToString(this, "Create", model)
+                });
+            }
+
             Reservation reservation = new()
             {
                 Document = model.Document,
